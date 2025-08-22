@@ -118,7 +118,20 @@
 
 </html>
 <script>
-    const baseUrl = 'https://k51fcu08kd.execute-api.us-east-1.amazonaws.com/hmg/curriculos/quando-contratar-curriculos/'
+    const baseUrl = 'https://k51fcu08kd.execute-api.us-east-1.amazonaws.com/hmg/curriculos/quando-contratar-curriculos/';
+
+    // Lista de MIME types permitidos
+    const allowedMimeTypes = [
+        "application/pdf",
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/rtf",
+        "text/plain",
+        "application/vnd.oasis.opendocument.text"
+    ];
 
     async function uploadFile() {
         const input = document.getElementById("inputFile");
@@ -131,16 +144,17 @@
         const fileName = file.name;
         const mimeType = file.type;
 
+        // Validação do tipo de arquivo
+        if (!allowedMimeTypes.includes(mimeType)) {
+            alert("Tipo de arquivo não suportado. Envie PDF, PNG, JPG, JPEG, DOC, DOCX, RTF, TXT ou ODT.");
+            return;
+        }
+
         const options = {
             method: 'PUT',
-            body: file
+            body: file,
+            headers: { 'Content-Type': mimeType }
         };
-
-        // Define Content-Type apenas para tipos conhecidos
-        if (mimeType === "application/pdf" || mimeType === "text/plain") {
-            options.headers = { 'Content-Type': mimeType };
-        }
-        // Se não for PDF ou TXT, não define Content-Type
 
         try {
             const response = await fetch(baseUrl + fileName, options);
