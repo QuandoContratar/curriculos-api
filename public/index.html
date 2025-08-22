@@ -1,17 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Arquivos</title>
+    <title>Quando Contratar</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #3b82f6;
+            margin-bottom: 8px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .group {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 28px;
+        }
+
+        .group-title {
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 6px;
+        }
+
+        .group-list {
+            color: #334155;
+            font-size: 1rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        input[type="file"] {
+            margin: 18px 0 12px 0;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #dbeafe;
+            background: #f9fafb;
+            width: 100%;
+        }
+
+        button {
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 32px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        .footer {
+            margin-top: 32px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+    </style>
 </head>
 
 <body>
-    <input type="file" id="inputFile">
-    <button onclick="uploadFile()">
-        Upload
-    </button>
+    <div class="container">
+        <h1>Quando Contratar</h1>
+        <div class="subtitle">Envie seu currículo para nosso grupo!</div>
+        <div class="group">
+            <div class="group-title">Integrantes do grupo:</div>
+            <ul class="group-list">
+                <li>Aerin</li>
+                <li>Alexandre</li>
+                <li>Crhistian</li>
+                <li>Erica</li>
+                <li>Isabel</li>
+                <li>Luize</li>
+            </ul>
+        </div>
+        <input type="file" id="inputFile">
+        <button onclick="uploadFile()">
+            Enviar Currículo
+        </button>
+        <div class="footer">
+            &copy; 2025 Quando Contratar
+        </div>
+    </div>
 </body>
 
 </html>
@@ -21,7 +123,7 @@
     async function uploadFile() {
         const input = document.getElementById("inputFile");
         if (!input.files.length) {
-            console.log("Nenhum arquivo selecionado.");
+            alert("Nenhum arquivo selecionado.");
             return;
         }
 
@@ -33,19 +135,19 @@
             const response = await fetch(baseUrl + fileName, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': mimeType // ou 'application/octet-stream'
+                    'Content-Type': mimeType
                 },
                 body: file
             });
 
             if (response.ok) {
-                console.log('Upload realizado com sucesso!');
+                alert('Upload realizado com sucesso!');
             } else {
                 const text = await response.text();
-                console.log('Erro:', text);
+                alert('Erro: ' + text);
             }
         } catch (error) {
-            console.log("🚀 ~ uploadFile ~ error:", error);
+            alert("Erro ao enviar arquivo: " + error.message);
         }
     }
 </script>
