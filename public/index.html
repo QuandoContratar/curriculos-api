@@ -131,14 +131,19 @@
         const fileName = file.name;
         const mimeType = file.type;
 
+        const options = {
+            method: 'PUT',
+            body: file
+        };
+
+        // Define Content-Type apenas para tipos conhecidos
+        if (mimeType === "application/pdf" || mimeType === "text/plain") {
+            options.headers = { 'Content-Type': mimeType };
+        }
+        // Se não for PDF ou TXT, não define Content-Type
+
         try {
-            const response = await fetch(baseUrl + fileName, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': mimeType
-                },
-                body: file
-            });
+            const response = await fetch(baseUrl + fileName, options);
 
             if (response.ok) {
                 alert('Upload realizado com sucesso!');
