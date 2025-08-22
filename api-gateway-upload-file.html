@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Arquivos</title>
+</head>
+
+<body>
+    <input type="file" id="inputFile">
+    <button onclick="uploadFile()">
+        Upload
+    </button>
+</body>
+
+</html>
+<script>
+    const baseUrl = 'https://k51fcu08kd.execute-api.us-east-1.amazonaws.com/hmg/curriculos/quando-contratar-curriculos/'
+
+    async function uploadFile() {
+        const input = document.getElementById("inputFile");
+        if (!input.files.length) {
+            console.log("Nenhum arquivo selecionado.");
+            return;
+        }
+
+        const file = input.files[0];
+        const fileName = file.name;
+        const mimeType = file.type;
+
+        try {
+            const response = await fetch(baseUrl + fileName, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': mimeType // ou 'application/octet-stream'
+                },
+                body: file
+            });
+
+            if (response.ok) {
+                console.log('Upload realizado com sucesso!');
+            } else {
+                const text = await response.text();
+                console.log('Erro:', text);
+            }
+        } catch (error) {
+            console.log("🚀 ~ uploadFile ~ error:", error);
+        }
+    }
+</script>
